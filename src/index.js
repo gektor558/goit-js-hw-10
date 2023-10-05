@@ -26,57 +26,57 @@ function renderCatsBreedsList(cats) {
 }
 
 function addCats() {
-  fetchBreeds().then(cats => {
-
-      refs.catBreedsEl.innerHTML = renderCatsBreedsList(cats);
-      new SlimSelect({
-          select: '#single'
-      });
-      refs.catSlimSelectWrapper = document.querySelector('.ss-main.breed-select');
-  }).catch(() => {
-      refs.catBreedsEl.classList.add('js-hidden');
-      refs.catSlimSelectWrapper.classList.add('js-hidden');
-      refs.loader.classList.add('js-hidden');
-      refs.error = document.querySelector('.js-hidden');
-      Notiflix.Notify.failure(refs.error.classList.remove('js-hidden'));  
-  });
+    fetchBreeds().then(cats => {
+ 
+        refs.catBreedsEl.innerHTML = renderCatsBreedsList(cats);
+        new SlimSelect({
+            select: '#single'
+        });
+        refs.catSlimSelectWrapper = document.querySelector('.ss-main.breed-select');
+    }).catch(() => {
+        refs.catBreedsEl.classList.add('js-hidden');
+        refs.catSlimSelectWrapper.classList.add('js-hidden');
+        refs.loader.classList.add('js-hidden');
+        refs.error = document.querySelector('.js-hidden');
+        Notiflix.Notify.failure(refs.error.classList.remove('js-hidden'));  
+    });
 }
 addCats();
 
 
 function getCatCard(breed, url) {
-  return `<img class="cat" id=${breed.id}
-      src=${url}
-      alt=${breed.alt_names}
-      height=300
-    />
-    <h1 class="cat-name">${breed.name}</h1>
-    <p class="cat-description">
-${breed.description}
-    </p>
-    <p class="cat-temp">
-      <span class="temperament">Temperament: </span>${breed.temperament}
-    </p>`;
+    return `<img class="cat" id=${breed.id}
+        src=${url}
+        alt=${breed.alt_names}
+        height=300
+      />
+      <h1 class="cat-name">${breed.name}</h1>
+      <p class="cat-description">
+  ${breed.description}
+      </p>
+      <p class="cat-temp">
+        <span class="temperament">Temperament: </span>${breed.temperament}
+      </p>`;
 }
 
 refs.catBreedsEl.addEventListener('change', oncatBreedsElChange);
 
 function oncatBreedsElChange(event) {
-  const breedId = event.target.value;
-  refs.catBreedsEl.classList.add('js-hidden');
-  refs.catSlimSelectWrapper.classList.add('js-hidden');
-  refs.loader.classList.remove('js-hidden');
-  
-  fetchCatByBreed(breedId).then(catData => {
-      refs.catInfoWrapper.innerHTML = getCatCard(catData[0].breeds[0], catData[0].url);
-      refs.loader.classList.add('js-hidden');
-      refs.catBreedsEl.classList.remove('js-hidden');
-      refs.catSlimSelectWrapper.classList.remove('js-hidden');
-  }).catch(() => {
-      refs.catBreedsEl.classList.add('js-hidden');
-      refs.catSlimSelectWrapper.classList.add('js-hidden');
-      refs.loader.classList.add('js-hidden');
-      Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!'); 
-  
-  });
+    const breedId = event.target.value;
+    refs.catBreedsEl.classList.add('js-hidden');
+    refs.catSlimSelectWrapper.classList.add('js-hidden');
+    refs.loader.classList.remove('js-hidden');
+    
+    fetchCatByBreed(breedId).then(catData => {
+        refs.catInfoWrapper.innerHTML = getCatCard(catData[0].breeds[0], catData[0].url);
+        refs.loader.classList.add('js-hidden');
+        refs.catBreedsEl.classList.remove('js-hidden');
+        refs.catSlimSelectWrapper.classList.remove('js-hidden');
+    }).catch(() => {
+        refs.catBreedsEl.classList.add('js-hidden');
+        refs.catSlimSelectWrapper.classList.add('js-hidden');
+        refs.loader.classList.add('js-hidden');
+        Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!'); 
+    
+    });
 };
